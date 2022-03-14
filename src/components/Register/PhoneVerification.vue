@@ -62,5 +62,7 @@ export default {
   width:100%;
   height:40px;
   margin-bottom:30px;
+  background-color: cornflowerblue;
+
 }
 </style>
