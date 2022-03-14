@@ -1,18 +1,7 @@
 <template>
-  <v-app>
-    <v-main>
-      <router-view/>
-    </v-main>
-  </v-app>
+  <div class="h-screen bg-red-400"></div>
 </template>
 
-<script>
+<style>
 
-export default {
-  name: 'App',
-
-  data: () => ({
-    //
-  }),
-}
-</script>
+</style>

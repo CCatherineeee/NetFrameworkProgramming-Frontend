@@ -1,9 +1,24 @@
 <template>
-  <el-container>
-    <el-header class="login-header">
-      <home-header></home-header>
-    </el-header>
-  </el-container>
+  <div class="container-back">
+    <el-container>
+      <el-header class="login-header">
+        <home-header></home-header>
+      </el-header>
+      <el-container style="margin-left: 10px;margin-right: 10px">
+        <el-aside>
+          <el-card shadow="always"> Always </el-card>
+        </el-aside>
+        <el-main>
+          <el-card shadow="always">
+          </el-card>
+        </el-main>
+        <el-aside>
+          <el-card shadow="always"> Always </el-card>
+        </el-aside>
+      </el-container>
+
+    </el-container>
+  </div>
 </template>
 
 <script>
@@ -13,6 +28,10 @@ export default {
   name: 'Home',
   components: {
     HomeHeader
+  },
+  data(){
+    return{
+    }
   }
 }
 </script>
@@ -20,5 +39,11 @@ export default {
 .login-header{
   box-shadow: 4px 4px 5px lightgray;
   height: 100px;
+  margin: 0px 30px 30px 10px;
+  background: white;
+}
+.container-back{
+  background: #f4f4f4;
+  height: 900px;
 }
 </style>
