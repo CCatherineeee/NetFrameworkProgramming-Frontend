@@ -5,8 +5,8 @@
       <el-step title="填写账号信息"></el-step>
       <el-step title="注册成功"></el-step>
     </el-steps>
-    <phoneVerification v-if="activeStep === 1" v-on:toNextStep="next($event)"></phoneVerification>
-    <fillUserInformation v-if="activeStep === 2" v-on:toNextStep="next($event)"></fillUserInformation>
+    <phoneVerification v-if="activeStep === 1" @toNextStep="next"></phoneVerification>
+    <fillUserInformation v-if="activeStep === 2" @toNextStep="next"></fillUserInformation>
     <success-register v-if="activeStep === 3"></success-register>
   </div>
 </template>
@@ -26,11 +26,29 @@ export default {
   data(){
     return{
       activeStep:1,
+      registerForm:{
+        Email:"",
+        FakeName:"",
+        UserPwd:"",
+      }
     }
   },
   methods:{
-    next(msg){
-      this.activeStep = msg;
+    next(param1,param2){
+      console.log(param1,param2)
+      this.activeStep = param1;
+      if(param1 === 2){
+        this.registerForm.Email=param2.Email;
+        console.log(this.registerForm);
+      }
+      else if(param1 === 3){
+        this.registerForm.FakeName = param2.FakeName;
+        this.registerForm.UserPwd = param2.UserPwd;
+        console.log(this.registerForm);
+      }
+      else{
+        console.log(this.registerForm);
+      }
     }
   }
 }

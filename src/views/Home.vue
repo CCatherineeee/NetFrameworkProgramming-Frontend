@@ -11,10 +11,10 @@
       <el-divider></el-divider>
       <div class="mx-auto">
         <p class="italic">See personalized recommendations</p>
-        <div>
-          <el-button style="background-color: #facd45;text-align: center;width: 40%"><b>Sign In</b></el-button>
-        </div>
+          <el-button style="background-color: #facd45;text-align: center;width: 100%"><b>Sign In</b></el-button>
+        <br />
       </div>
+      <el-divider></el-divider>
     </el-container>
   </div>
 </template>

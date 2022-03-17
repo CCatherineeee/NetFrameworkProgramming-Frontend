@@ -6,9 +6,8 @@
         :model="loginForm"
         :rules="rules"
     >
-      <el-form-item label="电话号码" prop="phoneNumber">
-        <el-input v-model="loginForm.phoneNumber" size="large" clearable>
-          <template #prepend>+86</template>
+      <el-form-item label="邮箱" prop="Email">
+        <el-input v-model="loginForm.Email" size="large" clearable>
         </el-input>
       </el-form-item>
       <transition name="el-zoom-in-center">
@@ -16,7 +15,7 @@
           <el-button type="primary" class="button-style" @click="getVerification">获取验证码</el-button>
         </el-form-item>
       </transition>
-      <el-form-item label="验证码" v-show="sendVerification === true">
+      <el-form-item label="验证码" prop="verification" v-show="sendVerification === true">
         <el-input v-model="loginForm.verification" size="large"></el-input>
       </el-form-item>
       <el-form-item>
@@ -33,15 +32,27 @@ export default {
   data(){
     return{
       loginForm:{
-        phoneNumber: "",
+        Email: "",
         verification:"",
       },
       rules:{
-        phoneNumber:[
-          { required: true, message: "请输入正确的电话号码", trigger: "blur" },
-          { min: 11, max: 11, message: "请输入正确的电话号码", trigger: "blur" },
-          {pattern: /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/,message: "请输入正确的电话号码",}
+        Email: [
+          { required: true, message: '请填写邮箱', trigger: 'blur' },
+          { type: 'string',
+            message: '邮箱格式不正确',
+            trigger: 'blur',
+            transform (value) {
+              if (!/^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/.test(value)) {
+                return true
+              }else{
+              }
+            }
+          },
+          { type: 'string', message: '长度不能超过30位', trigger: 'blur', max: 30 }
         ],
+        verification:[
+          {required: true, message: '请填写验证码', trigger: 'blur'}
+        ]
       },
       sendVerification:false,
     }
@@ -51,7 +62,13 @@ export default {
       this.sendVerification = true;
     },
     toNextStep:function (){
-      this.$emit("toNextStep",2)
+      if(this.loginForm.Email === "" || this.loginForm.verification === "")
+        return;
+      if (!/^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/.test(this.loginForm.Email)) {
+        return;
+      }
+
+      this.$emit("toNextStep",2,this.loginForm)
     }
   },
 }

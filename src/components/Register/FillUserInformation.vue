@@ -6,15 +6,15 @@
         :model="informationForm"
         :rules="rules"
     >
-      <el-form-item label="用户名" prop="fakeName">
-        <el-input v-model="informationForm.fakeName" size="large" clearable>
+      <el-form-item label="用户名" prop="FakeName">
+        <el-input v-model="informationForm.FakeName" size="large" clearable>
         </el-input>
       </el-form-item>
-      <el-form-item label="密码" prop="password">
-        <el-input type="password" v-model="informationForm.password" size="large"></el-input>
+      <el-form-item label="密码" prop="UserPwd">
+        <el-input type="password" v-model="informationForm.UserPwd" size="large"></el-input>
       </el-form-item>
-      <el-form-item label="确认密码" prop="verifyPassword">
-        <el-input type="password" v-model="informationForm.verifyPassword" size="large"></el-input>
+      <el-form-item label="确认密码" prop="verifyUserPwd">
+        <el-input type="password" v-model="informationForm.verifyUserPwd" size="large"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" class="button-style" @click="toNextStep">提交</el-button>
@@ -28,7 +28,7 @@
 export default {
   name: "fillUserInformation",
   data(){
-    let checkPwd2 = ((rule,value,callback)=>{
+    let checkPwd = ((rule,value,callback)=>{
       if(value.trim().length===0){
         callback(new Error("请确认密码不能为空"));
       }else if(value !== this.informationForm.password){
@@ -39,28 +39,28 @@ export default {
     })
     return{
       informationForm:{
-        fakeName:"",
-        password:"",
-        verifyPassword:""
-
+        FakeName:"",
+        UserPwd:"",
+        verifyUserPwd:""
       },
       rules:{
-        fakeName:[
+        FakeName:[
           { required: true, message: "请输入用户名", trigger: "blur" },
         ],
-        password:[
+        UserPwd:[
           { required: true, message: "请输入密码", trigger: "blur" },
         ],
-        verifyPassword:[
+        verifyUserPwd:[
           { required: true, message: "请确认密码", trigger: "blur" },
-          { validator:checkPwd2,trigger:"blur"}
+          { validator:checkPwd,trigger:"blur"}
         ],
       },
     }
   },
   methods:{
     toNextStep:function (){
-      this.$emit("toNextStep",3)
+      console.log(this.informationForm)
+      this.$emit("toNextStep",3,this.informationForm)
     },
   }
 }
