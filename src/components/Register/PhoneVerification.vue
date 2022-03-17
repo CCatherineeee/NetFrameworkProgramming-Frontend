@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import request from "@/utils/request";
 export default {
   name: "phoneVerification",
   data(){
@@ -58,17 +59,19 @@ export default {
     }
   },
   methods:{
-    getVerification(){
+    async getVerification() {
+      await request({url:"/api/Users/CreateVerification",method:"post"}).then(res=>{
+        console.log(res)
+      })
       this.sendVerification = true;
     },
-    toNextStep:function (){
-      if(this.loginForm.Email === "" || this.loginForm.verification === "")
+    toNextStep: function () {
+      if (this.loginForm.Email === "" || this.loginForm.verification === "")
         return;
       if (!/^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/.test(this.loginForm.Email)) {
         return;
       }
-
-      this.$emit("toNextStep",2,this.loginForm)
+      this.$emit("toNextStep", 2, this.loginForm)
     }
   },
 }
