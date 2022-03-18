@@ -1,6 +1,7 @@
 import axios from "axios";
 
 axios.defaults.headers["Content-Type"] = "application/json;charset=utf-8";
+// axios.defaults.headers['Access-Control-Allow-Credentials'] = true;
 // 创建axios实例 axios.create([config])
 const service = axios.create({
     // axios中请求配置有baseURL选项，表示请求URL公共部分
@@ -9,14 +10,13 @@ const service = axios.create({
     //         ? process.env.VUE_APP_BASE_URI
     //         : "http://localhost:5000",
     // 超时
-    baseURL:"http://localhost:5000",
     timeout: 30000,
     async: true,
     crossDomain: true,//设置cross跨域
     withCredentials: true//设置cross跨域 并设置访问权限 允许跨域携带cookie信息
 });
 service.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
-
+//service.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
 // request拦截器
 axios.interceptors.request.use(config => {
