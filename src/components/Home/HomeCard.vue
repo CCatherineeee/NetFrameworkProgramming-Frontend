@@ -1,45 +1,16 @@
 <template>
-  <el-container class="main-back h-screen">
+  <el-container class="main-back">
     <el-main>
-      <div class="grid grid-flow-col grid-cols-3 grid-rows-2 gap-4" >
-        <div>
-          <el-card>
-            <h2><b>游戏配件</b></h2>
-            <el-button type="text">查看更多</el-button>
+      <div class="grid grid-cols-5 md:grid-rows-2 gap-4" >
+        <div v-for="(item,index) in itmList" :key="index">
+          <el-card shadow="hover" class="card">
+            <img :src="item.src" style="width: 100%;border-radius: 10px;margin-bottom: 10px" />
+            <div>
+              <el-button type="text" size="large"><b><p style="font-size: medium">{{item.title}}</p></b></el-button>
+              <p><b>{{item.author}}</b> in {{item.lable}}</p>
+            </div>
           </el-card>
         </div>
-        <div>
-          <el-card>
-            <h2><b>宠物集市</b></h2>
-            <el-button type="text">查看更多</el-button>
-          </el-card>
-        </div>
-        <div>
-          <el-card>
-            <h2><b>美妆护肤</b></h2>
-            <el-button type="text">查看更多</el-button>
-          </el-card>
-        </div>
-        <div>
-          <el-card>
-            <h2><b>健康护理</b></h2>
-            <el-button type="text">查看更多</el-button>
-          </el-card>
-        </div>
-        <div>
-          <el-card>
-            <h2><b>Sign in for the best experience</b></h2>
-            <br />
-            <el-button style="background-color: #facd45;width:100%"><b>Sign In</b></el-button>
-          </el-card>
-        </div>
-        <div>
-          <el-card>
-            <h2><b>时尚造型</b></h2>
-            <el-button type="text">查看更多</el-button>
-          </el-card>
-        </div>
-
       </div>
     </el-main>
   </el-container>
@@ -47,10 +18,58 @@
 
 <script>
 export default {
-  name: "HomeCard"
+  name: "HomeCard",
+  data(){
+    return{
+      itmList:[
+        {
+          src:require("../../assets/img/il_340x270.446882086_t1zg.png"),
+          title:"this is an title how to use",
+          author:"tCathf",
+          lable:"wood"
+        },
+        {
+          src:require("../../assets/img/Fuji_Quad_Headset_2x._SY232_CB667159060_.jpg"),
+          title:"this is an title how to use",
+          author:"tCathf",
+          lable:"wood"
+        },
+        {
+          src:require("../../assets/img/Fuji_Quad_Chair_2x._SY232_CB667159060_.jpg"),
+          title:"this is an title how to use",
+          author:"tCathf",
+          lable:"wood"
+        },
+        {
+          src:require("../../assets/img/Fuji_Quad_Headset_2x._SY232_CB667159060_.jpg"),
+          title:"this is an title how to use",
+          author:"tCathf",
+          lable:"wood"
+        },
+        {
+          src:require("../../assets/img/Fuji_Quad_Chair_2x._SY232_CB667159060_.jpg")
+        },
+        {
+          src:require("../../assets/img/Fuji_Quad_Headset_2x._SY232_CB667159060_.jpg")
+        },
+        {
+          src:require("../../assets/img/Fuji_Quad_Chair_2x._SY232_CB667159060_.jpg")
+        },
+        {
+          src:require("../../assets/img/Fuji_Quad_Headset_2x._SY232_CB667159060_.jpg")
+        }
+      ]
+    }
+  }
 }
 </script>
 
 <style scoped>
+.card{
+  border-style: solid;
+  border-width: thin;
+  border-color: #252F3F;
+
+}
 
 </style>
