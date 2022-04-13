@@ -9,5 +9,11 @@ import './assets/style/myStyle.css'
 import './myStyle.css'
 import './assets/tailwind.css'
 
+import VueQuillEditor from 'vue-quill-editor'
+// require styles 引入样式
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 
-createApp(App).use(store).use(router).use(ElementPlus).mount('#app')
+
+createApp(App).use(store).use(router).use(ElementPlus).use(VueQuillEditor).mount('#app')
