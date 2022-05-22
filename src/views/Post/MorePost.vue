@@ -1,8 +1,10 @@
 <template>
   <div class="container-back">
-    <div class="login-header  " style="width: 100%" >
-      <home-header></home-header>
-    </div>
+    <el-affix :offset="0">
+      <div class="login-header  " style="width: 100%" >
+        <home-header></home-header>
+      </div>
+    </el-affix>
     <div class="main-back">
       <el-tabs tab-position="left"  class="demo-tabs">
         <el-tab-pane label="🎁 所有">

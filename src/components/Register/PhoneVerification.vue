@@ -28,6 +28,7 @@
 
 <script>
 import request from "@/utils/request";
+import axios from "axios";
 export default {
   name: "phoneVerification",
   data(){
@@ -60,15 +61,34 @@ export default {
   },
   methods:{
     async getVerification() {
-      await request({url:"/api/Users/CreateVerification",method:"post"}).then(res=>{
+      console.log(this.loginForm.Email)
+      if (this.loginForm.Email === ""){
+        this.$message.error("请填写邮箱！")
+        return;
+      }
+      // await request({url:"/api/Users/CreateVerification",method:"get",params:{"mailAddress":this.loginForm.Email}}).then(res=>{
+      //   console.log(res)
+      // }).catch(err=>{
+      //   console.log(err)
+      // })
+      await axios.get("/api/Users/CreateVerification",{
+        params:{
+          "mailAddress":this.loginForm.Email
+        }
+      }).then(res=>{
         console.log(res)
+      }).catch(err=>{
+        console.log(err)
       })
       this.sendVerification = true;
     },
     toNextStep: function () {
-      if (this.loginForm.Email === "" || this.loginForm.verification === "")
+      if (this.loginForm.Email === "" || this.loginForm.verification === ""){
+        this.$message.error("请填写邮箱！")
         return;
+      }
       if (!/^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/.test(this.loginForm.Email)) {
+        this.$message.error("请填写正确邮箱！")
         return;
       }
       this.$emit("toNextStep", 2, this.loginForm)

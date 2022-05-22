@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <el-container class="background">
     <el-header class="login-header"></el-header>
     <el-main style="text-align: center;">
       <el-row type="flex" justify="center" align="middle" style="height: 100%;">
@@ -9,8 +9,7 @@
                 label-position="top"
                 label-width="120px"
                 :model="loginForm"
-                :rules="rules"
-            >
+                :rules="rules">
               <el-form-item label="用户名" prop="fakeName">
                 <el-input v-model="loginForm.fakeName" size="large" clearable>
                 </el-input>
@@ -19,7 +18,7 @@
                 <el-input type="password" v-model="loginForm.password" size="large"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button type="text" @click="jump('/phoneLogin')">手机验证码登录</el-button>
+                <el-button type="text" @click="jump('/phone-login')">忘记密码</el-button>
               </el-form-item>
               <el-form-item>
                 <el-button type="primary" class="button-style" @click="jump('/home')">登录</el-button>
@@ -79,5 +78,13 @@ export default {
 .login-header{
   box-shadow: 4px 4px 5px lightgray;
   height: 60px;
+}
+.background{
+  background-image: url("../../assets/bg.jpg");
+  -webkit-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height: 800px;
+
 }
 </style>

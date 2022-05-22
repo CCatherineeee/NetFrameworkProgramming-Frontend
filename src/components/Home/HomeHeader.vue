@@ -15,7 +15,7 @@
             <el-button type="primary" style="background-color:#ee6400;border-color: #ee6400">搜索</el-button>
           </el-col>
           <el-col :span="1" style="margin-top: 30px;">
-            <el-button type="text" size="large">Sign In</el-button>
+            <el-button type="text" size="large" @click="jump('/register')">Sign In</el-button>
           </el-col>
           <el-col :span="1" style="margin-top: 30px;">
             <el-button type="text" size="large">Sign In</el-button>
@@ -24,7 +24,6 @@
     <el-row style="height: 30%">
       <ul class="tabWraps " style="margin-right: 30px;margin-left: 30px;">
         <li>首页</li>
-        <li>商店</li>
         <li>专题</li>
         <li>活动</li>
         <li>
@@ -62,6 +61,11 @@ export default {
   data(){
     return{
       searchInput:"",
+    }
+  },
+  methods:{
+    jump(value){
+      this.$router.push({path:value})
     }
   }
 }

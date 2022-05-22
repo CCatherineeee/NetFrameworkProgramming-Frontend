@@ -1,6 +1,4 @@
 import axios from "axios";
-
-axios.defaults.headers["Content-Type"] = "application/json;charset=utf-8";
 // axios.defaults.headers['Access-Control-Allow-Credentials'] = true;
 // 创建axios实例 axios.create([config])
 const service = axios.create({
@@ -10,30 +8,30 @@ const service = axios.create({
     //         ? process.env.VUE_APP_BASE_URI
     //         : "http://localhost:5000",
     // 超时
+    baseURL:"http://localhost:5000",
     timeout: 30000,
     async: true,
     crossDomain: true,//设置cross跨域
-    withCredentials: true//设置cross跨域 并设置访问权限 允许跨域携带cookie信息
+    withCredentials: false//设置cross跨域 并设置访问权限 允许跨域携带cookie信息
 });
-service.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 //service.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
 // request拦截器
-axios.interceptors.request.use(config => {
-    // 在发送请求之前做些什么
-    // let pathname = location.pathname;
-    // if(localStorage.getItem('token')){
-    //     if(pathname !== '/' &&  pathname !== '/login'){
-    //         config.headers.common['token'] = localStorage.getItem('token');
-    //     }
-    // }
-    // config.headers['Access-Control-Allow-Headers'] = "*"
-    return config;
-}, error => {
-    // 对请求错误做些什么
-    console.log(error)
-    return Promise.reject(error);
-});
+// axios.interceptors.request.use(config => {
+//     // 在发送请求之前做些什么
+//     // let pathname = location.pathname;
+//     // if(localStorage.getItem('token')){
+//     //     if(pathname !== '/' &&  pathname !== '/login'){
+//     //         config.headers.common['token'] = localStorage.getItem('token');
+//     //     }
+//     // }
+//     // config.headers['Access-Control-Allow-Headers'] = "*"
+//     return config;
+// }, error => {
+//     // 对请求错误做些什么
+//     console.log(error)
+//     return Promise.reject(error);
+// });
 // 响应拦截器
 axios.interceptors.response.use(response => {
     let { data } = response;

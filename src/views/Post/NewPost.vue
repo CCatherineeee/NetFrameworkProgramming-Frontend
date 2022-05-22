@@ -1,6 +1,10 @@
 <template>
-  <div>
-    <home-header></home-header>
+  <div style="margin-bottom: 60px">
+    <el-affix :offset="0">
+      <div class="login-header  " style="width: 100%" >
+        <home-header></home-header>
+      </div>
+    </el-affix>
     <div class="main-back">
       <h1 style="margin: 10px;font-size: x-large;font-family: 黑体"><b>发布你的手工教程</b></h1>
       <div  style="margin: 15px">
@@ -47,8 +51,19 @@
         />
       </div>
 
-    </div>
-    <div>
+      <div id="tags" style="margin: 10px">
+        <h3 style="margin-bottom: 10px">选择你的标签</h3>
+        <el-checkbox-group v-model="checkboxGroup1" size="small">
+          <el-row>
+            <div v-for="(item,index) in labelList" :key="index">
+              <el-checkbox :label="item.label" border style="width: 100px;margin-left: 10px;margin-right: 10px"/>
+            </div>
+          </el-row>
+        </el-checkbox-group>
+      </div>
+      <div style="margin-left: 10px;margin-top: 40px">
+        <el-button class="button-post-style" style="  background-color: #409EFFFF;color: white;width: 200px"> 提交 </el-button>
+      </div>
     </div>
   </div>
 </template>
@@ -69,7 +84,38 @@ export default {
   components:{HomeHeader,Editor, Toolbar, Plus},
   data(){
     return{
-      imageUrl:""
+      imageUrl:"",
+      checkboxGroup1:[],
+      labelList:[
+        {
+          label:"🐏 羊毛毡",
+        },
+        {
+          label:"🧶 编织",
+        },
+        {
+          label:"👓 饰品",
+        },
+        {
+          label:"🎗 布艺",
+        },
+        {
+          label:"🎫 纸艺",
+        },
+        {
+          label:"🍃 旧物改造",
+        },
+        {
+          label:"⚱ 粘土陶土",
+        },
+        {
+          label:"🖼 手绘",
+
+        },
+        {
+          label:"🗿 雕塑雕刻",
+        },
+      ],
     }
   },
   methods: {
@@ -94,12 +140,12 @@ export default {
     const editorRef = shallowRef()
 
     // 内容 HTML
-    const valueHtml = ref('<p>hello</p>')
+    const valueHtml = ref('<p>⛏<strong>主要材料：</strong></p><table style="width: 100%;"><tbody><tr><th colSpan="1" rowSpan="1">材料名称</th><th colSpan="1" rowSpan="1">数量</th></tr><tr><td colSpan="1" rowSpan="1"></td><td colSpan="1" rowSpan="1"></td></tr></tbody></table><p><br></p><p>⛏<strong>主要工具：</strong></p><table style="width: 100%;"><tbody><tr><th colSpan="1" rowSpan="1">工具名称</th><th colSpan="1" rowSpan="1">数量</th></tr><tr><td colSpan="1" rowSpan="1"></td><td colSpan="1" rowSpan="1"></td></tr></tbody></table><p><br></p><p>⛏<strong>主要步骤：</strong></p>')
 
     // 模拟 ajax 异步获取内容
     onMounted(() => {
       setTimeout(() => {
-        valueHtml.value = '<p>模拟 Ajax 异步设置内容</p>'
+        valueHtml.value = '<p>⛏<strong>主要材料：</strong></p><table style="width: 100%;"><tbody><tr><th colSpan="1" rowSpan="1">材料名称</th><th colSpan="1" rowSpan="1">数量</th></tr><tr><td colSpan="1" rowSpan="1"></td><td colSpan="1" rowSpan="1"></td></tr></tbody></table><p><br></p><p>⛏<strong>主要工具：</strong></p><table style="width: 100%;"><tbody><tr><th colSpan="1" rowSpan="1">工具名称</th><th colSpan="1" rowSpan="1">数量</th></tr><tr><td colSpan="1" rowSpan="1"></td><td colSpan="1" rowSpan="1"></td></tr></tbody></table><p><br></p><p>⛏<strong>主要步骤：</strong></p>'
       }, 1500)
     })
 
@@ -182,5 +228,9 @@ export default {
   width: 300px;
   height: 200px;
   text-align: center;
+}
+.button-post-style{
+  background-color: #409EFFFF;
+  color: white;
 }
 </style>

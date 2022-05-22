@@ -1,9 +1,11 @@
 <template>
   <div class="container-back">
     <div>
-      <div class="login-header  " style="width: 100%" >
-        <home-header></home-header>
-      </div>
+      <el-affix :offset="0">
+        <div class="login-header  " style="width: 100%" >
+          <home-header></home-header>
+        </div>
+      </el-affix>
       <div>
         <div>
 
