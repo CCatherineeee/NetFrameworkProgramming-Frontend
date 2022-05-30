@@ -19,9 +19,11 @@
               </el-form-item>
               <el-form-item>
                 <el-button type="text" @click="jump('/phone-login')">忘记密码</el-button>
+                <el-button type="text" @click="jump('/phone-login')">忘记密码</el-button>
+
               </el-form-item>
               <el-form-item>
-                <el-button type="primary" class="button-style" @click="jump('/home')">登录</el-button>
+                <el-button type="primary" class="button-style" @click="login()">登录</el-button>
               </el-form-item>
             </el-form>
           </div>
@@ -33,6 +35,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "Login",
 
@@ -55,6 +59,24 @@ export default {
   methods:{
     jump(value){
       this.$router.push({path:value})
+    },
+    async login(){
+      await axios.post("/api/Users/passwordLogin",{
+        "Name":this.loginForm.fakeName,
+        "Password":this.loginForm.password
+      },{
+        headers: {'Content-Type': 'application/json'} //加上这个
+      }).then(res=>{
+        if(res.code === 200) {
+          localStorage.setItem("id",res.data)
+          this.jump("/home")
+        }
+        else{
+          this.$message.error(res.msg)
+        }
+      }).catch(err=>{
+        this.$message.error("网络堵塞")
+      })
     }
   }
 }

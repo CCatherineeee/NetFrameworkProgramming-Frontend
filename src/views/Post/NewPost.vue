@@ -13,7 +13,7 @@
           <el-col :span="8" style="margin-bottom: 30px">
             <el-upload
                 class="avatar-uploader"
-                action="https://jsonplaceholder.typicode.com/posts/"
+                action="/api/Posts/UploadHeaderPic"
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload">
@@ -30,7 +30,7 @@
             <h1 style="font-size: large"><b>标题</b></h1>
           </el-col>
           <el-col :span="21">
-            <el-input style="width: 100%"></el-input>
+            <el-input style="width: 100%" v-model="title"></el-input>
           </el-col>
         </el-row>
       </div>
@@ -62,7 +62,7 @@
         </el-checkbox-group>
       </div>
       <div style="margin-left: 10px;margin-top: 40px">
-        <el-button class="button-post-style" style="  background-color: #409EFFFF;color: white;width: 200px"> 提交 </el-button>
+        <el-button class="button-post-style" style="  background-color: #409EFFFF;color: white;width: 200px" @click="submit()"> 提交 </el-button>
       </div>
     </div>
   </div>
@@ -75,16 +75,19 @@ import HomeHeader from "@/components/Home/HomeHeader";
 import '@wangeditor/editor/dist/css/style.css' // 引入 css
 
 import { onBeforeUnmount, ref, shallowRef, onMounted } from 'vue'
-import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
+import { Editor, Toolbar,IEditorConfig } from '@wangeditor/editor-for-vue'
 
 import {Plus} from "@element-plus/icons";
+import axios from "axios";
 
+let content;
 export default {
   name: "NewPost",
   components:{HomeHeader,Editor, Toolbar, Plus},
   data(){
     return{
       imageUrl:"",
+      title:"",
       checkboxGroup1:[],
       labelList:[
         {
@@ -116,23 +119,46 @@ export default {
           label:"🗿 雕塑雕刻",
         },
       ],
+      content:""
     }
   },
   methods: {
     handleAvatarSuccess(res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw);
+      console.log(res)
+      this.imageUrl = res.data[0];
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type === 'image/png';
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const isJPG = file.type === 'image/png' || file.type === 'image/jpg';
+      const isLt2M = file.size / 1024 / 1024 < 4;
 
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!');
+        this.$message.error('上传图片只能是 JPG 格式!');
       }
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!');
+        this.$message.error('上传图片大小不能超过 4MB!');
       }
       return isJPG && isLt2M;
+    },
+    async submit(){
+
+      console.log(Array.from(this.checkboxGroup1) )
+      await axios.post("/api/Posts/addPost",{
+        "title":this.title,
+        "content":content,
+        "pic_url":this.imageUrl,
+        "user_id":localStorage.getItem("id"),
+        "labelList":Array.from(this.checkboxGroup1)
+      }).then(res=>{
+        if(res.code === 200){
+          this.$message.success(res.msg)
+        }
+        else{
+          this.$message.error(res.msg)
+        }
+      }).catch(err=>{
+        console.log(err)
+        this.$message.error("网络堵塞！")
+      })
     }
   },
   setup() {
@@ -150,7 +176,12 @@ export default {
     })
 
     const toolbarConfig = {}
-    const editorConfig = { placeholder: '请输入内容...' }
+    const editorConfig = { MENU_CONF: {} }
+    editorConfig.MENU_CONF['uploadImage'] = {
+      server: '/api/Posts/UploadPic',
+      fieldName: 'file',
+
+    }
 
     // 组件销毁时，也及时销毁编辑器
     onBeforeUnmount(() => {
@@ -164,7 +195,7 @@ export default {
     }
 
     const handleChange = ()=>{
-      console.log(valueHtml.value)
+      content = valueHtml.value
     }
     // todo: 配置图片上传地址
 
@@ -200,11 +231,6 @@ export default {
   height: 178px;
   line-height: 178px;
   text-align: center;
-}
-.avatar {
-  width: 178px;
-  height: 178px;
-  display: block;
 }
 </style>
 

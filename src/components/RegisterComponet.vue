@@ -55,9 +55,14 @@ export default {
         },{
           headers: {'Content-Type': 'application/json'} //加上这个
         }).then(res=>{
-          this.activeStep = param1;
+          if(res.code === 200) {
+            this.activeStep = param1;
+          }
+          else{
+            this.$message.error(res.msg)
+          }
         }).catch(err=>{
-          console.log(err)
+          this.$message.error("网络堵塞")
         })
       }
       else{

@@ -18,7 +18,7 @@
             <el-button type="text" size="large" @click="jump('/register')">Sign In</el-button>
           </el-col>
           <el-col :span="1" style="margin-top: 30px;">
-            <el-button type="text" size="large">Sign In</el-button>
+            <el-button type="text" size="large" @click="jump('/password-login')">Sign In</el-button>
           </el-col>
         </el-row>
     <el-row style="height: 30%">
