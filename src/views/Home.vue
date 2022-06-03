@@ -9,7 +9,7 @@
       <div>
         <div>
 
-          <el-carousel height="350px">
+          <el-carousel height="350px" style="width: 100%">
             <el-carousel-item>
               <img src="../assets/img/FN473HBJW0Y4BP3.jpg" style="margin-top: -100px"/>
             </el-carousel-item>
