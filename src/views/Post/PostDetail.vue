@@ -10,16 +10,17 @@
         <h1 style="font-size: xx-large;word-break:break-all" >{{post.title}}</h1>
         <el-button style="background-color: #409EFF;color: white;margin: 10px 10px 10px 20px;" size="large">收藏</el-button>
       </el-row>
-      <el-row style="margin: 10px">
-        <img :src="post.picUrl" />
-      </el-row>
       <el-row>
-        <div v-for="(item,index) in post.postLabels " :key="index" class="label-style">
-          <div >{{item.label}}</div>
-        </div>
-      </el-row>
-      <el-row>
+
         <el-col :span="16">
+          <el-row style="margin: 10px">
+            <img :src="post.picUrl" style="width: 100%;height: 400px"/>
+          </el-row>
+          <el-row>
+            <div v-for="(item,index) in post.postLabels " :key="index" class="label-style">
+              <div >{{item.label}}</div>
+            </div>
+          </el-row>
           <div v-html="content" style="padding: 20px;"  class="detail"></div>
           <div style="margin: 40px 20px 20px;">
             <el-divider><b>评论区</b></el-divider>

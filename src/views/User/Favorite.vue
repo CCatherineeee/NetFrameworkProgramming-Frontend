@@ -1,65 +1,58 @@
 <template>
 
   <div  style="margin-top: 10px;margin-left: 20px">
-    <div style="margin-top: 20px;">
-      <div class="grid grid-cols-3 gap-4" >
-        <div v-for="(item,index) in itmList" :key="index">
-          <el-card shadow="hover" class="card" style="border-width: medium">
-            <img :src="item.src" style="width: 100%;border-radius: 10px;margin-bottom: 10px" />
-            <div>
-              <el-button type="text" size="large"><b><p style="font-size: medium">{{item.title}}</p></b></el-button>
-              <p><b>{{item.author}}</b> in {{item.lable}}</p>
+    <el-collapse>
+      <div v-for="(item,index) in itmList" :key="index">
+        <el-collapse-item :name="index" :title="item.name">
+          <div class="grid grid-cols-4 grid-row-2 gap-4" style="margin:10px">
+            <div v-for="(itm,idx) in item.posts" :key="idx">
+              <el-card shadow="hover" class="card" style="cursor: pointer">
+                <img :src="itm.post.picUrl" style="border-radius: 10px" />
+                <el-button type="text" style="text-align: center">{{itm.post.title}}</el-button>
+                <el-row>
+                  <div v-for="(it,i) in itm.post.postLabels" :key="i">
+                    <div style="background: antiquewhite;padding: 5px;margin: 2px;border-radius: 10px;cursor: pointer;font-size: x-small">{{it.label}}</div>
+                  </div>
+                </el-row>
+              </el-card>
             </div>
-          </el-card>
-        </div>
+          </div>
+        </el-collapse-item>
       </div>
-      <div style="margin-top: 20px">
-        <el-pagination layout="prev, pager, next" :total="50" background></el-pagination>
-      </div>
-    </div>
+    </el-collapse>
 
   </div>
 
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "Favorite",
   data(){
     return{
-      itmList:[
-        {
-          src:require("../../assets/img/il_340x270.446882086_t1zg.png"),
-          title:"this is an title how to use",
-          author:"tCathf",
-          lable:"wood"
-        },
-        {
-          src:require("../../assets/img/Fuji_Quad_Headset_2x._SY232_CB667159060_.jpg"),
-          title:"this is an title how to use",
-          author:"tCathf",
-          lable:"wood"
-        },
-        {
-          src:require("../../assets/img/Fuji_Quad_Chair_2x._SY232_CB667159060_.jpg"),
-          title:"this is an title how to use",
-          author:"tCathf",
-          lable:"wood"
-        },
-        {
-          src:require("../../assets/img/Fuji_Quad_Headset_2x._SY232_CB667159060_.jpg"),
-          title:"this is an title how to use",
-          author:"tCathf",
-          lable:"wood"
-        },
-        {
-          src:require("../../assets/img/Fuji_Quad_Chair_2x._SY232_CB667159060_.jpg")
-        },
-        {
-          src:require("../../assets/img/Fuji_Quad_Headset_2x._SY232_CB667159060_.jpg")
-        },
-      ]
+      itmList:[]
+
     }
+  },
+  methods:{
+    async getMy(){
+      await axios.get("/api/Favorite/my",{
+        params:{
+          "id":localStorage.getItem("id")
+        }
+      }).then(res=>{
+        console.log(res)
+        this.itmList = res.data
+      }).catch(err=>{
+        console.log(err)
+        this.$message.error("网络错误！")
+      })
+    }
+  },
+  mounted() {
+    this.getMy()
   }
 }
 </script>
