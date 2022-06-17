@@ -2,7 +2,7 @@
   <div style="height: 120px;background-color: #252F3F" >
         <el-row style="height: 70%;margin-right: 30px;margin-left: 30px" >
           <el-col :span="2" style="margin-top: 30px;">
-            <h1 style="font-size: large;color: white;font-family: 'Franklin Gothic Medium Cond';text-shadow:3px 3px 3px rgba(229,229,229,0.71);">HandyShare</h1>
+            <h1 style="font-size: large;color: white;font-family: 'Franklin Gothic Medium Cond';cursor:pointer;text-shadow:3px 3px 3px rgba(229,229,229,0.71);" @click="jump('/home')">HandyShare</h1>
           </el-col>
           <el-col :span="20" style="margin-top: 30px;">
             <input
@@ -14,11 +14,14 @@
 
             <el-button type="primary" style="background-color:#ee6400;border-color: #ee6400">搜索</el-button>
           </el-col>
-          <el-col :span="1" style="margin-top: 30px;">
-            <el-button type="text" size="large" @click="jump('/register')">Sign In</el-button>
+          <el-col v-if="isLogin === false"   :span="1" style="margin-top: 30px;">
+            <el-button type="text" size="large" @click="jump('/register')">注册</el-button>
           </el-col>
-          <el-col :span="1" style="margin-top: 30px;">
-            <el-button type="text" size="large" @click="jump('/password-login')">Sign In</el-button>
+          <el-col  v-if="isLogin === false"  :span="1" style="margin-top: 30px;">
+            <el-button type="text" size="large" @click="jump('/password-login')">登录</el-button>
+          </el-col>
+          <el-col  v-if="isLogin" :span="1" style="margin-top: 30px;">
+            <el-avatar size="large" :src="user.avatarUrl" style="cursor: pointer" @click="jump('/userHome/profile')"/>
           </el-col>
         </el-row>
     <el-row style="height: 30%">
@@ -53,6 +56,7 @@
 <script>
 
 import { Search } from '@element-plus/icons-vue'
+import axios from "axios";
 export default {
   name: "HomeHeader",
   components:{
@@ -61,12 +65,36 @@ export default {
   data(){
     return{
       searchInput:"",
+      user:null,
+      isLogin:false
     }
   },
   methods:{
     jump(value){
       this.$router.push({path:value})
+    },
+    async getData(){
+      await axios.get('api/Users/getById',{
+        params: {
+          "id": localStorage.getItem("id")
+        }
+      }).then(res=>{
+        console.log(res)
+        this.user = res.data
+      }).catch(err=>{
+        console.log(err)
+        this.$message.error("网络堵塞！")
+
+      })
+    },
+  },
+  mounted() {
+    if(localStorage.getItem("id") != null){
+      this.isLogin = true
+      this.getData()
     }
+
+    console.log(this.isLogin)
   }
 }
 </script>

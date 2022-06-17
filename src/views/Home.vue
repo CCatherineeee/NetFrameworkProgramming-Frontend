@@ -27,9 +27,43 @@
 
 
         <div class="main-back">
-          <el-button type="text"><h1 class="text-button"><b>更多教程 EXPLORE PROJECTS ></b></h1></el-button>
+          <el-button type="text"><h1 class="text-button"><b>热点教程 HOT POSTS ></b></h1></el-button>
         </div>
-        <home-card></home-card>
+        <div class="main-back">
+          <div class="grid grid-cols-4 gap-2" style="margin: 20px 20px 10px 20px">
+            <div v-for="(item,index) in hotGoodList" :key="index">
+              <el-card shadow="hover" class="card" style="cursor: pointer" @click="jump(item.postId)">
+                <img :src="item.picUrl" style="border-radius: 10px" />
+                <el-button type="text" style="text-align: center">{{item.title}}</el-button>
+                <el-row>
+                  <div v-for="(it,i) in item.postLabels" :key="i">
+                    <div style="background: antiquewhite;padding: 5px;margin: 2px;border-radius: 10px;cursor: pointer;font-size: x-small">{{it.label}}</div>
+                  </div>
+                </el-row>
+              </el-card>
+            </div>
+          </div>
+        </div>
+
+        <div class="main-back">
+          <el-button type="text"><h1 class="text-button"><b>最新发布 NEWEST POSTS ></b></h1></el-button>
+        </div>
+        <div class="main-back">
+          <div class="grid grid-cols-4 gap-2" style="margin: 20px 20px 10px 20px">
+            <div v-for="(item,index) in newList" :key="index">
+              <el-card shadow="hover" class="card" style="cursor: pointer" @click="jump(item.postId)">
+                <img :src="item.picUrl" style="border-radius: 10px" />
+                <el-button type="text" style="text-align: center">{{item.title}}</el-button>
+                <el-row>
+                  <div v-for="(it,i) in item.postLabels" :key="i">
+                    <div style="background: antiquewhite;padding: 5px;margin: 2px;border-radius: 10px;cursor: pointer;font-size: x-small">{{it.label}}</div>
+                  </div>
+                </el-row>
+              </el-card>
+            </div>
+          </div>
+        </div>
+
 
         <el-divider></el-divider>
         <div >
@@ -72,17 +106,6 @@
         <el-divider></el-divider>
         <div class="main-back">
           <el-button type="text"><h1 class="text-button"><b>人气商品 HOT SHOP ></b></h1></el-button>
-          <div class="grid grid-cols-4 gap-2" style="margin: 20px 20px 10px 20px">
-            <div v-for="(item,index) in hotGoodList" :key="index">
-              <el-card shadow="hover" class="card">
-                <img :src="item.src" style="width: 100%;border-radius: 10px;margin-bottom: 10px" />
-                <div>
-                  <el-button type="text" size="large"><b><p style="font-size: medium">{{item.title}}</p></b></el-button>
-                  <p><b>{{item.author}}</b> in {{item.lable}}</p>
-                </div>
-              </el-card>
-            </div>
-          </div>
         </div>
 
 
@@ -151,6 +174,7 @@
 // @ is an alias to /src
 import HomeHeader from "../components/Home/HomeHeader";
 import HomeCard from "@/components/Home/HomeCard";
+import axios from "axios";
 export default {
   name: 'Home',
   components: {
@@ -179,6 +203,7 @@ export default {
         ],
         style : "label"
       },
+      newList:[],
       labelList:[
         {
           label:"🐏 羊毛毡",
@@ -305,7 +330,28 @@ export default {
       this.labelList[this.index].style = "label"
       this.labelList[index].style = "active"
       this.index = index
-    }
+    },
+    async getHot(item,index){
+      axios.get('api/Posts/hotPost').then(res=>{
+        console.log(res)
+        this.hotGoodList = res.data
+      })
+    },
+    async getNew(item,index){
+      axios.get('api/Posts/newPost').then(res=>{
+        console.log(res)
+        this.newList = res.data
+      })
+    },
+    jump(id){
+      this.$router.push({
+        name: 'post-detail', params: {id: id}
+      })
+    },
+  },
+  mounted() {
+    this.getHot()
+    this.getNew()
   }
 }
 </script>
